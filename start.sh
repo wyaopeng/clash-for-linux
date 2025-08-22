@@ -6,10 +6,11 @@
 #################### 脚本初始化任务 ####################
 
 # 获取脚本工作目录绝对路径
-export Server_Dir=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+export Server_Dir=/app
 
 # 加载.env变量文件
-source $Server_Dir/.env
+# 通过环境变量加载
+# source $Server_Dir/.env
 
 # 给二进制启动程序、脚本等添加可执行权限
 chmod +x $Server_Dir/bin/*
@@ -161,15 +162,15 @@ echo -e '\n正在启动Clash服务...'
 Text5="服务启动成功！"
 Text6="服务启动失败！"
 if [[ $CpuArch =~ "x86_64" || $CpuArch =~ "amd64"  ]]; then
-	nohup $Server_Dir/bin/clash-linux-amd64 -d $Conf_Dir &> $Log_Dir/clash.log &
+	$Server_Dir/bin/clash-linux-amd64 -d $Conf_Dir
 	ReturnStatus=$?
 	if_success $Text5 $Text6 $ReturnStatus
 elif [[ $CpuArch =~ "aarch64" ||  $CpuArch =~ "arm64" ]]; then
-	nohup $Server_Dir/bin/clash-linux-arm64 -d $Conf_Dir &> $Log_Dir/clash.log &
+	$Server_Dir/bin/clash-linux-arm64 -d $Conf_Dir
 	ReturnStatus=$?
 	if_success $Text5 $Text6 $ReturnStatus
 elif [[ $CpuArch =~ "armv7" ]]; then
-	nohup $Server_Dir/bin/clash-linux-armv7 -d $Conf_Dir &> $Log_Dir/clash.log &
+	$Server_Dir/bin/clash-linux-armv7 -d $Conf_Dir
 	ReturnStatus=$?
 	if_success $Text5 $Text6 $ReturnStatus
 else
